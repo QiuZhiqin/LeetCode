@@ -1,0 +1,75 @@
+//寻找数组中心下标
+int pivotIndex(vector<int> &nums)
+{
+    int mid = 0, n = nums.size();
+    int suml, sumr;
+    while (mid < n)
+    {
+        sumr = 0, suml = 0;
+        if (mid == 0)
+        {
+            suml = 0;
+            for (int i = mid + 1; i < n; i++)
+                sumr += nums[i];
+        }
+        else if (mid == n)
+        {
+            for (int i = 0; i < mid; i++)
+                suml += nums[i];
+            sumr = 0;
+        }
+        else
+        {
+            for (int i = mid + 1; i < n; i++)
+                sumr += nums[i];
+            for (int i = 0; i < mid; i++)
+                suml += nums[i];
+        }
+        if (suml == sumr)
+            return mid;
+        mid++;
+    }
+    return -1;
+}
+
+//两数之和
+vector<int> twoSum(vector<int> &nums, int target)
+{
+    int fir = 0, sec = 0;
+    vector<int> v1;
+    while (fir <= nums.size() - 2)
+    {
+        sec = fir + 1;
+        while (sec <= nums.size() - 1)
+        {
+            if (nums[fir] + nums[sec] != target)
+                sec++;
+            else if (nums[fir] + nums[sec] == target)
+            {
+                v1.push_back(fir);
+                v1.push_back(sec);
+                return v1;
+            }
+        }
+        fir++;
+    }
+    return v1;
+}
+
+//删除重复项
+int removeDuplicates(vector<int> &nums)
+{
+    int i, j;
+    int n = nums.size();
+    if (n == 0)
+        return 0;
+    for (i = 0, j = 1; j < n; j++)
+    {
+        if (nums[i] != nums[j])
+        {
+            ++i;
+            nums[i] = nums[j];
+        }
+    }
+    return i + 1;
+}
