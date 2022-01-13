@@ -1,0 +1,36 @@
+//合并区间
+vector<vector<int>> merge(vector<vector<int>> &intervals)
+{
+    if (intervals.size() == 0)
+        return intervals;
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>> ans;
+    for (int i = 0; i < intervals.size();)//注意此处不需要i++
+    {
+        int t = intervals[i][0];
+        int j = i + 1;
+        while (j < intervals.size() && intervals[j][0] < t)
+        {
+            t = max(t, intervals[j][1]);
+            j++;
+        }
+        ans.push_back({intervals[i][0], t});
+        i = j;
+    }
+    return ans;
+}
+
+//判断存在重复元素
+bool containsDuplicate(vector<int> &nums)
+{
+    sort(nums.begin(), nums.end());
+    int n = nums.size();
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (nums[i] == nums[i + 1])
+        {
+            return true;
+        }
+    }
+    return false;
+}
