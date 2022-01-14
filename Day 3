@@ -19,3 +19,32 @@ void merge(vector<int> &nums1, int m, vector<int> &nums2, int n)
     for (int i = 0; i < m + n; i++)
         nums1[i] = sorted[i];
 }
+
+//最长公共前缀
+string longestCommonPrefix(vector<string> &strs)
+{
+    int n2 = strs.size(), n1 = strs[0].size();
+    string ans;
+    char b;
+    int a, i = 0;
+    if (n2 == 0)
+        return ans;
+    while (i < n1)
+    {
+        a = 1;
+        b = strs[0][i];
+        for (int j = 1; j < n2; j++)
+        {
+            if (strs[j][i] == b)
+                a++;
+            else
+                break;
+        }
+        if (a == n2)
+            i++;
+        else
+            break;
+    }
+    ans.assign(strs[0], 0, i);
+    return ans;
+}
