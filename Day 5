@@ -1,0 +1,26 @@
+//计算杨辉三角
+vector<vector<int>> generate(int numRows)
+{
+    int i, j;
+    vector<vector<int>> ans;
+    if (numRows <= 0)
+        return ans;
+    ans.push_back({1});
+    if (numRows == 1)
+        return ans;
+    for (int level = 1; level < numRows; level++)
+    {
+        vector<int> temp;
+        for (i = -1, j = 0; j < level + 1; i++, j++)
+        {
+            if (i < 0)
+                temp.push_back(ans[level - 1][j]);
+            else if (j >= level)
+                temp.push_back(ans[level - 1][i]);
+            else
+                temp.push_back(ans[level - 1][i] + ans[level - 1][j]);
+        }
+        ans.push_back(temp);
+    }
+    return ans;
+}
