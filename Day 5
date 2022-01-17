@@ -24,3 +24,26 @@ vector<vector<int>> generate(int numRows)
     }
     return ans;
 }
+
+//重塑矩阵
+int m = mat.size(), n = mat[0].size();
+    if (m * n != r * c)
+        return mat;
+    vector<int> nums;//引入一维数组按行存储
+    vector<vector<int>> ans;
+    int p = 0;
+    for (auto val1 : mat)
+    {
+        for (auto val2 : val1)
+            nums.push_back(val2);
+    }
+    for (int i = 0; i < r; i++)
+    {
+        vector<int> temp;//临时存储待插入的一行，按行插入ans数组
+        for (int j = 0; j < c; j++)
+        {
+            temp.push_back(nums[p++]);
+        }
+        ans.push_back(temp);
+    }
+    return ans;
