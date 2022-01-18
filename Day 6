@@ -45,11 +45,12 @@ void setZeroes(vector<vector<int>> &matrix)
             matrix[0][i] = 0;
 }
 
+//找到字符串中首个不重复的元素
 int firstUniqChar(string s)
 {
     vector<char> words;
     vector<int> counts;
-    for (auto c : s)
+    for (auto c : s)//这一步遍历字符串，用两个数组分别存储元素及其出现次数
     {
         int i;
         int n = words.size();
@@ -68,7 +69,7 @@ int firstUniqChar(string s)
         }
     }
     int i, n = counts.size(), m = s.size();
-    for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++)//遍历counts数组，找到出现次数为1的元素，找不到则返回-1
     {
         if (counts[i] == 1)
         {
@@ -78,4 +79,46 @@ int firstUniqChar(string s)
         }
     }
     return -1;
+}
+
+//ransomeNote可否由magazine构成？（magazine中每个char只可用一次，即绑匪剪杂志来写赎金信）
+//方法一：用数组保存magazine中出现的字符与出现次数，效率低
+bool canConstruct(string ransomNote, string magazine)
+{
+    vector<char> words;
+    vector<int> counts;
+    for (auto c : magazine)
+    {
+        int i;
+        int n = words.size();
+        for (i = 0; i < n; i++)
+        {
+            if (c == words[i])
+            {
+                counts[i]++;
+                break;
+            }
+        }
+        if (i == n)
+        {
+            words.push_back(c);
+            counts.push_back(1);
+        }
+    }
+    int n = ransomNote.size(), m = words.size();
+    for (int i = 0; i < n; i++)
+    {
+        int j;
+        for (j = 0; j < m; j++)
+        {
+            if (ransomNote[i] == words[j] && counts[j] > 0)
+            {
+                counts[j]--;
+                break;
+            }
+        }
+        if (j == m)
+            return false;
+    }
+    return true;
 }
