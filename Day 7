@@ -80,3 +80,23 @@ ListNode *removeElements(ListNode *head, int val)
     }
     return pre;
 }
+
+//删除重复元素
+ListNode *deleteDuplicates(ListNode *head)
+{
+    if (head == NULL)
+        return NULL;
+    ListNode *p = head, *q = head;
+    while (p != NULL)
+    {
+        if (q->val == p->val)
+            p = p->next;
+        else
+        {
+            q->next = p;
+            q = q->next;
+        }
+    }
+    q->next = p;
+    return head;
+}
