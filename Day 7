@@ -48,3 +48,21 @@ ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
     }
     return s->next;
 }
+
+//删除链表元素
+ListNode *removeElements(ListNode *head, int val)
+{
+    ListNode *a = new ListNode();
+    a->next = head;
+    ListNode *pre = a, *p = a->next;
+    while (p != NULL)
+    {
+        if (p->val == val)
+            pre->next = p->next;
+
+        else
+            pre = p;
+        p = p->next;
+    }
+    return a->next;
+}
