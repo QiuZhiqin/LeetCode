@@ -1,0 +1,15 @@
+//判断链表是否有环
+bool hasCycle(ListNode *head)
+{
+    unordered_set<ListNode *> seen;
+    ListNode *p = head;
+    while (p != NULL && p->next != NULL)
+    {
+        auto it = seen.find(p);
+        if (it != seen.end())
+            return true;
+        seen.insert(p);
+        p = p->next;
+    }
+    return false;
+}
