@@ -40,27 +40,11 @@ ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
     }
     if (p == NULL)
     {
-        while (q != NULL)
-        {
-            ListNode *temp = new ListNode();
-            temp->val = q->val;
-            temp->next = NULL;
-            r->next = temp;
-            r = r->next;
-            q = q->next;
-        }
+        r->next = q;
     }
     else if (q == NULL)
     {
-        while (p != NULL)
-        {
-            ListNode *temp = new ListNode();
-            temp->val = p->val;
-            temp->next = NULL;
-            r->next = temp;
-            r = r->next;
-            p = p->next;
-        }
+        r->next = p;
     }
-    return s;
+    return s->next;
 }
