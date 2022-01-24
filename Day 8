@@ -1,0 +1,72 @@
+//括号配对（输入只有括号）
+bool isValid(string s)
+{
+    int n = s.size();
+    if (n % 2 == 1)
+        return false;
+    stack<char> stk;
+    unordered_map<char, char> pairs = {{')', '('}, {']', '['}, {'}', '{'}};
+    for (auto ch : s)
+    {
+        if (pairs.count(ch))
+        {
+            if (!stk.empty() && stk.top() == pairs[ch])
+                stk.pop();
+            else
+                return false;
+        }
+        else
+            stk.push(ch);
+    }
+    return stk.empty();
+}
+
+//用两个栈实现队列
+class MyQueue
+{
+private:
+    stack<int> in, out;
+    void in2out()
+    {
+        while (!in.empty())
+        {
+            int x = in.top();
+            out.push(x);
+            in.pop();
+        }
+    }
+
+public:
+    MyQueue()
+    {
+    }
+
+    void push(int x)
+    {
+        in.push(x);
+    }
+
+    int pop()
+    {
+        if (out.empty())//如果out不空，直接出栈即可，否则将in的元素放到out中
+            in2out();
+        int x = out.top();
+        out.pop();
+        return x;
+    }
+
+    int peek()
+    {
+        if (out.empty())
+            in2out();
+        return out.top();
+    }
+
+    bool empty()
+    {
+        if (in.empty() && out.empty())
+            return true;
+        else
+            return false;
+    }
+};
