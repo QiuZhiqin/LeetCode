@@ -62,3 +62,22 @@ public:
         return root;
     }
 };
+//找路径总和
+class Solution
+{
+public:
+    bool path(TreeNode *root, int targetSum, int correntSum)
+    {
+        if (!root)
+            return false;
+        correntSum = correntSum + root->val;
+        if (!root->left && !root->right)//加上这句是为了确定root为叶子节点，去掉这句程序也能运行，不过路径不一定连接叶子节点
+            return correntSum == targetSum;
+        return path(root->left, targetSum, correntSum) || path(root->right, targetSum, correntSum);
+    }
+    bool hasPathSum(TreeNode *root, int targetSum)
+    {
+        int correntSum = 0;
+        return path(root, targetSum, correntSum);
+    }
+};
