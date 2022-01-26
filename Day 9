@@ -41,3 +41,24 @@ vector<vector<int>> levelOrder(TreeNode *root)
     }
     return ans;
 }
+
+//翻转二叉树
+class Solution
+{
+public:
+    void invert(TreeNode *&root)
+    {
+        if (!root)
+            return;
+        TreeNode *temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+        invert(root->right);
+        invert(root->left);
+    }
+    TreeNode *invertTree(TreeNode *root)
+    {
+        invert(root);
+        return root;
+    }
+};
