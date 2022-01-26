@@ -1,0 +1,43 @@
+//判断二叉树是否对称
+class Solution
+{
+public:
+    bool check(TreeNode *p, TreeNode *q)
+    {
+        if (!p && !q)
+            return true;
+        if (!p || !q)
+            return false;
+        return p->val == q->val && check(p->left, q->right) && check(p->right, q->left);//p的左孩子与q的右孩子应该相等
+    }
+    bool isSymmetric(TreeNode *root)
+    {
+        return check(root, root);
+    }
+};
+
+//层序遍历
+vector<vector<int>> levelOrder(TreeNode *root)
+{
+    vector<vector<int>> ans;
+    queue<TreeNode *> temp;
+    if (!root)
+        return ans;
+    temp.push(root);
+    while (!temp.empty())
+    {
+        int levelsize = temp.size();
+        ans.push_back(vector<int>{});
+        for (int i = 0; i < levelsize; i++)
+        {
+            auto node = temp.front();
+            temp.pop();
+            ans.back().push_back(node->val);
+            if (node->left)
+                temp.push(node->left);
+            if (node->right)
+                temp.push(node->right);
+        }
+    }
+    return ans;
+}
