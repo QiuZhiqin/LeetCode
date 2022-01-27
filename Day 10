@@ -26,3 +26,41 @@ TreeNode *searchBST(TreeNode *root, int val)
     else
         return searchBST(root->left, val);
 }
+
+//二叉搜索树的插入
+class Solution {
+public:
+    TreeNode *search(TreeNode *root, TreeNode *pre, int val)
+{
+    if (!root)
+        return pre;
+    if (root->val < val)
+        return search(root->right, root, val);
+    else
+        return search(root->left, root, val);
+}
+TreeNode *insertIntoBST(TreeNode *&root, int val)
+{
+    if (!root)
+    {
+        TreeNode *temp = new TreeNode;
+        temp->val = val;
+        return temp;
+    }
+    TreeNode *insert = search(root, root, val);
+    if (insert->val < val)
+    {
+        TreeNode *temp = new TreeNode;
+        temp->val = val;
+        insert->right = temp;
+        return root;
+    }
+    else
+    {
+        TreeNode *temp = new TreeNode;
+        temp->val = val;
+        insert->left = temp;
+        return root;
+    }
+}
+};
