@@ -95,9 +95,10 @@ bool findTarget(TreeNode *root, int k)
 };
 
 //二叉搜索树的公共祖先
+//方法一（分两种情况讨论，麻烦）
 class Solution {
 public:
-   bool searchBST(TreeNode *root, int val)
+   bool searchBST(TreeNode *root, int val)//判断root下是否有val
 {
     if (!root)
         return false;
@@ -108,7 +109,7 @@ public:
     else
         return searchBST(root->left, val);
 }
-void commonpos(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&common)
+void commonpos(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&common)//递归遍历，若某节点下同时包含pq，修改common，这样可保证返回最后一次修改的值
 {
     if (!root)
         return;
@@ -119,12 +120,22 @@ void commonpos(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&common)
 }
 TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 {
-    if (searchBST(p, q->val))
+    if (searchBST(p, q->val))//p是q的父节点？
         return p;
-    else if (searchBST(q, p->val))
+    else if (searchBST(q, p->val))//q是p的父节点？
         return q;
     TreeNode *common = nullptr;
-    commonpos(root, p, q, common);
+    commonpos(root, p, q, common);//若上两种情况均不满足，说明公共节点在上方，需要从根遍历
     return common;
 }
 };
+//方法二（较优）
+TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+{
+    if (p->val < root->val && q->val < root->val)//若pq值均小于root，说明pq在root的左子树里
+        return lowestCommonAncestor(root->left, p, q);
+    else if (p->val > root->val && q->val > root->val)
+        return lowestCommonAncestor(root->right, p, q);
+    else//以上两种情况均不满足，说明pq分别在root两侧，结束返回当前root
+        return root;
+}
