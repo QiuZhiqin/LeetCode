@@ -1,0 +1,16 @@
+//完美数列（最大值小于最小值*p）的最大个数
+int perfect(int size, int p, vector<int> nums)
+{
+    sort(nums.begin(), nums.end());
+    int i, j, maxlen = 0;
+    for (i = 0; i < size - 1; i++)
+    {
+        for (j = i + maxlen; j < size - 1; j++)
+        {
+            if (nums[j] > nums[i] * p)
+                break;
+            maxlen++;
+        }
+    }
+    return maxlen;
+}
