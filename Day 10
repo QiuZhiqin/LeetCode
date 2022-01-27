@@ -93,3 +93,38 @@ bool findTarget(TreeNode *root, int k)
     return false;
 }
 };
+
+//二叉搜索树的公共祖先
+class Solution {
+public:
+   bool searchBST(TreeNode *root, int val)
+{
+    if (!root)
+        return false;
+    if (root->val == val)
+        return true;
+    if (root->val < val)
+        return searchBST(root->right, val);
+    else
+        return searchBST(root->left, val);
+}
+void commonpos(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&common)
+{
+    if (!root)
+        return;
+    if (searchBST(root, p->val) && searchBST(root, q->val))
+        common = root;
+    commonpos(root->left, p, q, common);
+    commonpos(root->right, p, q, common);
+}
+TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+{
+    if (searchBST(p, q->val))
+        return p;
+    else if (searchBST(q, p->val))
+        return q;
+    TreeNode *common = nullptr;
+    commonpos(root, p, q, common);
+    return common;
+}
+};
