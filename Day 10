@@ -80,13 +80,15 @@ bool findTarget(TreeNode *root, int k)
 {
     vector<int> nums;
     inorder(root, nums);
-    unordered_map<int, int> hashtable;
-    for (int i = 0; i < nums.size(); i++)
+    int l = 0, r = nums.size() - 1;
+    while (l < r)
     {
-        auto it = hashtable.find(k - nums[i]);
-        if (it != hashtable.end())
+        if (nums[l] + nums[r] == k)
             return true;
-        hashtable[nums[i]] = i;
+        else if (nums[l] + nums[r] < k)
+            l++;
+        else
+            r--;
     }
     return false;
 }
