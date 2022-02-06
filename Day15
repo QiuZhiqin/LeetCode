@@ -1,0 +1,15 @@
+//验证二叉搜索树（408真题）
+class Solution {
+public:
+   bool f1(TreeNode *root, long low, long high)
+{
+    if (!root)
+        return true;
+    if (root->val <=low || root->val >= high)
+        return false;
+    return f1(root->left, low, root->val) && f1(root->right, root->val, high);
+}
+bool isValidBST(TreeNode *root)
+{
+    return f1(root, LONG_MIN, LONG_MAX);
+}
