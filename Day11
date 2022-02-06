@@ -28,3 +28,19 @@ bool isValidBST(TreeNode *root)
     }
     return k;
 }
+
+//分发饼干
+int findContentChildren(vector<int> &g, vector<int> &s)
+{
+    int child = 0;
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end());
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (child == g.size())
+            break;
+        if (g[child] <= s[i])
+            child++;
+    }
+    return child;
+}
