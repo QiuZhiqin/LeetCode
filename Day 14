@@ -168,3 +168,47 @@ bool validPalindrome(string s)
     return true;
 }
 };
+
+//删除字母匹配
+//如果答案不止一个，返回长度最长且字母序最小的字符串。如果答案不存在，则返回空字符串。
+int compare(const string &s, const string &t)
+{
+    int k = 0, s_size = s.size(), t_size = t.size();
+    int i = 0, j = 0;
+    while (i < s_size && j < t_size)
+    {
+        if (s[i] != t[j])
+            ++i;
+        else
+        {
+            ++i;
+            ++j;
+            ++k;
+        }
+    }
+    if (k == t_size)
+    {
+        return k;
+    }
+    else
+        return 0;
+}
+string findLongestWord(string s, vector<string> &dictionary)
+{
+    int n = dictionary.size(), max_size = 0, min_total = 0;
+    string ans;
+    for (int i = 0; i < n; i++)
+    {
+        int a = compare(s, dictionary[i]);
+        if (max_size < a)
+        {
+            max_size = a;
+            ans.assign(dictionary[i]);
+        }
+        else if (max_size == a && ans.compare(dictionary[i]) > 0)
+        {
+            ans.assign(dictionary[i]);
+        }
+    }
+    return ans;
+}
