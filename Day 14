@@ -75,3 +75,35 @@ ListNode *detectCycle(ListNode *head)
     }
     return fast;
 }
+
+//最小覆盖子串
+string minWindow(string s, string t)
+{
+    unordered_set<char> flag;
+    unordered_map<char, int> chars;
+    for (const char &a : t)
+    {
+        flag.insert(a);
+        chars[a]++;
+    }
+    int n = s.size();
+    int l = 0, min_size = s.size() + 1, min_l = 0, cnt = 0;
+    for (int r = 0; r < n; r++)
+    {
+        if (flag.count(s[r]))
+            if (--chars[s[r]] >= 0)
+                ++cnt;
+        while (cnt == t.size())
+        {
+            if (r - l + 1 < min_size)
+            {
+                min_l = l;
+                min_size = r - l + 1;
+            }
+            if (flag.count(s[l]) && ++chars[s[l]] > 0)
+                --cnt;
+            ++l;
+        }
+    }
+    return min_size > n ? "" : s.substr(min_l, min_size);
+}
