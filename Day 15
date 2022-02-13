@@ -32,6 +32,8 @@ int firstmatch(const vector<int> &nums, int target)
     }
     return l;
 }
+
+//搜索旋转排序数组（无重复元素）
 vector<int> searchRange(vector<int> &nums, int target)
 {
     int fir, las;
