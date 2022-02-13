@@ -42,3 +42,32 @@ vector<int> searchRange(vector<int> &nums, int target)
     else
         return {fir, las - 1};
 }
+
+//排序旋转数组搜索
+bool search(vector<int> &nums, int target)
+{
+    int low = 0, high = nums.size() - 1, mid;
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+        if (nums[mid] == target)
+            return true;
+        else if (nums[low] == nums[mid])               //无法判断有序区间
+            ++low;
+        else if (nums[low] < nums[mid])                //左侧有序
+        {
+            if (nums[mid] > target&&target>=nums[low])
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        else                                           //右侧有序
+        {
+            if (nums[mid] < target&&target<=nums[high])
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+    }
+    return false;
+}
