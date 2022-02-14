@@ -62,3 +62,24 @@ vector<int> topKFrequent(vector<int> &nums, int k)
     }
     return ans;
 }
+
+//根据字符出现频率排序
+string frequencySort(string s)
+{
+    unordered_map<char, int> counts;
+    string ans;
+    int size = 0;
+    for (const char &a : s)
+    {
+        ++counts[a];
+    }
+    vector<pair<char, int>> map_vec(counts.begin(), counts.end());
+    sort(map_vec.begin(), map_vec.end(), [](const pair<char, int> &a, const pair<char, int> &b)
+         { return a.second > b.second; });
+    for (const auto &a : map_vec)
+    {
+        for (int i = a.second; i > 0; i--)
+            ans.push_back(a.first);
+    }
+    return ans;
+}
