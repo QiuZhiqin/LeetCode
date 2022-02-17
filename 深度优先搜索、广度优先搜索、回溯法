@@ -226,3 +226,56 @@ void dfs(vector<vector<int>> &grid, queue<pair<int, int>> &points, int m, int n,
     dfs(grid, points, m, n, i, j + 1);
     dfs(grid, points, m, n, i, j - 1);
 }
+
+//被围绕的区域
+void dfs(vector<vector<char>> &board, int m, int n, int i, int j) //深度优先遍历，把相邻的O全部变为A
+{
+    if (i < 0 || j < 0 || i == m || j == n) // i,j超出范围直接返回
+        return;
+    if (board[i][j] == 'O')
+    {
+        board[i][j] = 'A';
+        dfs(board, m, n, i - 1, j);
+        dfs(board, m, n, i + 1, j);
+        dfs(board, m, n, i, j - 1);
+        dfs(board, m, n, i, j + 1);
+    }
+    else //非O直接返回
+        return;
+}
+void solve(vector<vector<char>> &board)
+{
+    queue<pair<int, int>> que; //收集位于边界的O的位置
+    int m = board.size(), n = board[0].size();
+    for (int i = 0; i < m; i++)
+    {
+        if (board[i][0] == 'O')
+            que.emplace(i, 0);
+        if (board[i][n - 1] == 'O')
+            que.emplace(i, n - 1);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (board[0][i] == 'O')
+            que.emplace(0, i);
+        if (board[m - 1][i] == 'O')
+            que.emplace(m - 1, i);
+    }
+    while (!que.empty()) //从每个边界的O开始进行dfs
+    {
+        int r = que.front().first, c = que.front().second;
+        que.pop();
+        dfs(board, m, n, r, c);
+    }
+    for (int i = 0; i < m; i++) //遍历整个矩阵，将O置为X，A置为O
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (board[i][j] == 'A')
+                board[i][j] = 'O';
+            else if (board[i][j] == 'O')
+                board[i][j] = 'X';
+        }
+    }
+    return;
+}
