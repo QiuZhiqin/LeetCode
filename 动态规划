@@ -24,9 +24,24 @@ int rob(vector<int> &nums)
     int pre = max(nums[0], nums[1]), pree = nums[0], cur;
     for (int i = 2; i < n; i++)
     {
-        cur = max(pree + nums[i], pre);
-        pree = pre;
+        cur = max(pree + nums[i], pre); //两种可能：1.第i家抢，则第i-1家不抢，则最大抢劫数目为i-1家之前（不包括i-1家）抢的
+        pree = pre;                     //数目总和+第i家抢到的钱;2.不抢第i家，则最大抢劫数额为到i-1家（包括）为止抢到的钱
         pre = cur;
     }
     return cur;
+}
+
+//等差数列划分
+int numberOfArithmeticSlices(vector<int> &nums)
+{
+    int n = nums.size();
+    if (n < 2)
+        return 0;
+    vector<int> dp(n, 0);
+    for (int i = 3; i < n; i++)
+    {
+        if (nums[i - 1] - nums[i - 2] == nums[i] - nums[i - 1]) //判断从nums[i-2]到nums[i]的三个元素是否等差
+            dp[i] = dp[i - 1] + 1;                              //若是，则相较以nums[i-1]为结尾的等差数列个数至少增加1，即(, , , ,nums[i-1])末端加上nums[i]依然等差
+    }
+    return accumulate(dp.begin(), dp.end(), 0); //子列可以以任意i为结尾，故需要对dp数列进行求和
 }
