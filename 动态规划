@@ -1,0 +1,14 @@
+//爬楼梯
+int climbStairs(int n)
+{
+    if (n <= 2)
+        return n;
+    int pre = 2, pree = 1, cur;
+    for (int i = 2; i < n; i++)
+    {
+        cur = pre + pree;
+        pree = pre;
+        pre = cur;
+    }
+    return cur;
+}
