@@ -304,3 +304,32 @@ vector<string> binaryTreePaths(TreeNode *root)
     construct_paths(root, "", paths);
     return paths;
 }
+
+//全排列（有重复数字）
+void backtracking(const vector<int> &nums, vector<vector<int>> &ans, vector<bool> &visited, vector<int> &temp, int level)
+{
+    if (level == nums.size()) //返回条件
+    {
+        ans.push_back(temp);
+        return;
+    }
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (visited[i] || (i > 0 && !visited[i - 1] && nums[i] == nums[i - 1])) //若第i个数已经用过或前后两个数相等且前一个未被使用，直接跳过
+            continue;
+        temp.push_back(nums[i]); //将nums[i]插入临时数列
+        visited[i] = true;       //标记nums[i]已经使用
+        backtracking(nums, ans, visited, temp, level + 1);
+        visited[i] = false; //删除标记
+        temp.pop_back();    //还原临时数组，备下次使用
+    }
+}
+vector<vector<int>> permuteUnique(vector<int> &nums)
+{
+    vector<vector<int>> ans;
+    vector<bool> visited(int(nums.size()), 0);
+    vector<int> temp;
+    sort(nums.begin(), nums.end()); //排序，使得相等的数相邻
+    backtracking(nums, ans, visited, temp, 0);
+    return ans;
+}
