@@ -83,3 +83,18 @@ int maximalSquare(vector<vector<char>> &matrix)
         }
     return max_len * max_len;
 }
+
+//完全平方数
+int numSquares(int n)
+{
+    vector<int> dp(n + 1, INT_MAX);//用于存储组成数字i需要的最少完全平方数
+    dp[0] = 0;
+    for (int i = 1; i <= n; ++i)
+    {
+        for (int j = 1; j * j <= i; ++j)
+        {
+            dp[i] = min(dp[i], dp[i - j * j] + 1);//找到一个最少的组合，由j和dp[i-j*j]中元素组成，个数就是dp[i-j*j]+1
+        }
+    }
+    return dp[n];
+}
