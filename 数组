@@ -467,3 +467,37 @@ bool isAnagram(string s, string t)
     }
     return true;
 }
+
+//找到数组中消失的数字
+vector<int> findDisappearedNumbers(vector<int> &nums)
+{
+    vector<int> ans;
+    int n = nums.size();
+    sort(nums.begin(), nums.end());
+    int flag = 0;
+    int k = 1, i = 0;
+    while (k <= n)
+    {
+        if (i >= n)//数组遍历完毕，则后续元素均不存在
+        {
+            ans.push_back(k);
+            ++k;
+        }
+        else
+        {
+            if (nums[i] == k)//存在，两个指针均前进
+            {
+                ++k;
+                ++i;
+            }
+            else if (nums[i] < k)//数组值小于k，数组指针指向下一位，k不变
+                ++i;
+            else//数组值大于k，说明不存在等于k的值，ans加入k，增加1，数组指针不变（此元素仍可能等于某个k）
+            {
+                ans.push_back(k);
+                ++k;
+            }
+        }
+    }
+    return ans;
+}
