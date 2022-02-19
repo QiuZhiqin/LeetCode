@@ -114,25 +114,17 @@ int numDecodings(string s)
     for (int i = 2; i <= n; ++i)
     {
         int cur = s[i - 1] - '0';
-        if ((prev == 0 || prev > 2) && cur == 0)
-        {
+        if ((prev == 0 || prev > 2) && cur == 0) //如果当前位是0，且组合前一位不在[0,26]之内，则无法解码，返回0
             return 0;
-        }
-        if ((prev < 2 && prev > 0) || prev == 2 && cur < 7)
+        if ((prev < 2 && prev > 0) || prev == 2 && cur < 7) //如果当前位与前一位组合位于[0,26]之内
         {
-            if (cur)
-            {
+            if (cur) //当前位不为0，解码方式为前两位之前（本位与前一位组合）与前一位之前（本位单独参加解码）的解码方式总和
                 dp[i] = dp[i - 2] + dp[i - 1];
-            }
-            else
-            {
+            else //当前位为0，故解码方式为前两位（前一位与本位必须结合在一起）之前的解码方式总和
                 dp[i] = dp[i - 2];
-            }
         }
-        else
-        {
+        else //前一位无法与当前位组合，当前位解码方式仅有一种
             dp[i] = dp[i - 1];
-        }
         prev = cur;
     }
     return dp[n];
