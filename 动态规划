@@ -129,3 +129,21 @@ int numDecodings(string s)
     }
     return dp[n];
 }
+
+//单词拆分
+bool wordBreak(string s, vector<string> &wordDict)
+{
+    int n = s.length();
+    vector<bool> dp(n + 1, false);
+    dp[0] = true; //重要
+    for (int i = 1; i <= n; ++i)
+    {
+        for (const string &word : wordDict)
+        {
+            int len = word.length();
+            if (i >= len && s.substr(i - len, len) == word) //取最后长为len的子串，与word比较
+                dp[i] = dp[i] || dp[i - len];               // dp[i-len]中只要有一个是true就满足
+        }
+    }
+    return dp[n];
+}
