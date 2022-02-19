@@ -131,3 +131,55 @@ int singleNonDuplicate(vector<int> &nums)
     }
     return nums[l];
 }
+
+//搜索二维矩阵
+bool searchMatrix(vector<vector<int>> &matrix, int target)
+{
+    if (!matrix.size())
+        return false;
+    int m = matrix.size(), n = matrix[0].size();
+    int left = 0, right = n - 1, mid;
+    while (left < right) //第一次折半，确定left列及以后均大于target
+    {
+        mid = (left + right) / 2;
+        if (matrix[0][mid] > target)
+            right = mid - 1;
+        else if (matrix[0][mid] < target)
+            left = mid + 1;
+        else
+            return true;
+    }
+    for (int i = 0; i < left; i++)
+    {
+        int low = 0, high = m - 1;
+        while (low < high) //对每列进行折半查找
+        {
+            mid = (low + high) / 2;
+            if (matrix[mid][i] > target)
+                high = mid - 1;
+            else if (matrix[mid][i] < target)
+                low = mid + 1;
+            else
+                return true;
+        }
+    }
+    return false;
+}
+//法二（更优秀）
+bool searchMatrix(vector<vector<int>> &matrix, int target)
+{
+    if (!matrix.size())
+        return false;
+    int m = matrix.size(), n = matrix[0].size();
+    int r = m - 1, c = 0;
+    while (r >= 0 && c < n)
+    {
+        if (matrix[r][c] > target) //左下元素比target大，因为同行元素均比左下元素大，故舍弃最后一行
+            --r;
+        else if (matrix[r][c] < target) //因为同列元素均比左下元素小，故舍弃第一列
+            ++c;
+        else
+            return true;
+    }
+    return false;
+}
