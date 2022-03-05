@@ -1,0 +1,50 @@
+//输入四个数N1,N2,flag,radix；flag表示输入的是第几个数的radix（进制）
+//换算进制范围（1-36），能换算则返回进制，不能则返回impossible
+int main()
+{
+    unordered_map<char, int> m;
+    for (char i = '0'; i <= '9'; ++i)
+        m[i] = i - '0';
+    char i = 'a';
+    int j = 10;
+    while (i <= 'z')
+    {
+        m[i] = j;
+        ++i;
+        ++j;
+    }
+    vector<string> N(2);
+    int flag, n1, n2, a;
+    char maxc = '0';
+    unsigned long long origin_val = 0, compare_val, radix, radix_ans;
+    while (cin >> N[0] >> N[1] >> flag >> radix)
+    {
+        n1 = N[flag - 1].size() - 1;
+        for (const char &c : N[flag - 1])
+        {
+            origin_val += m[c] * pow(radix, n1);
+            --n1;
+        }
+        a = flag == 1 ? 1 : 0;
+        for (const char &c : N[a])
+            maxc = max(maxc, c);
+        n2 = N[a].size() - 1;
+        for (radix_ans = m[maxc] + 1; radix_ans <= 36; ++radix_ans)
+        {
+            compare_val = 0;
+            for (const char &c : N[a])
+            {
+                compare_val += m[c] * pow(radix_ans, n2);
+                --n2;
+            }
+            if (compare_val == origin_val)
+            {
+                cout << radix_ans << endl;
+                break;
+            }
+        }
+        if (radix_ans == 37)
+            cout << "impossible" << endl;
+    }
+    return 0;
+}
