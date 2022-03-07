@@ -1,0 +1,81 @@
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+int priority(char c)
+{
+    if (c == '#')
+        return 0;
+    else if (c == '$')
+        return 1;
+    else if (c == '+' || c == '-')
+        return 2;
+    else
+        return 3;
+}
+double GetNumber(string str, int &index)
+{
+    double number = 0;
+    while (isdigit(str[index]))
+    {
+        number = number * 10 + str[index] - '0';
+        index++;
+    }
+    return number;
+}
+double calculate(double x, double y, char c)
+{
+    double result;
+    if (c == '+')
+        result = x + y;
+    if (c == '-')
+        result = x - y;
+    if (c == '/')
+        result = x / y;
+    if (c == '*')
+        result = x * y;
+    return result;
+}
+int main()
+{
+    string s;
+    while (getline(cin, s))
+    {
+        if (s == "0")
+            break;
+        stack<double> nums;
+        stack<char> oper;
+        oper.push('#');
+        s = s + '$';
+        int index = 0;
+        while (index < s.size())
+        {
+            if (s[index] == ' ')
+                ++index;
+            else if (isdigit(s[index]))
+                nums.push(GetNumber(s, index));
+            else
+            {
+                if (priority(s[index]) > priority(oper.top()))
+                {
+                    oper.push(s[index]);
+                    ++index;
+                }
+                else
+                {
+                    double x = nums.top();
+                    nums.pop();
+                    double y = nums.top();
+                    nums.pop();
+                    nums.push(calculate(y, x, oper.top()));
+                    oper.pop();
+                }
+            }
+        }
+        printf("%.2f\n", nums.top());
+    }
+    return 0;
+}
