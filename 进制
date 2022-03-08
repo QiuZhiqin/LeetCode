@@ -49,6 +49,7 @@ int main()
     return 0;
 }
 
+//十进制转化为二进制，再将逆序的二进制转化为十进制
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -78,8 +79,6 @@ vector<int> add(vector<int> number, int x) //超长数的加法，被加数以�
         number.insert(number.begin(), 1);
     return number;
 }
-
-//十进制转化为二进制，再将逆序的二进制转化为十进制
 int main()
 {
     string s;
