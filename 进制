@@ -48,3 +48,68 @@ int main()
     }
     return 0;
 }
+
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> multiple(vector<int> number, int x) //超长数的乘法，被乘数以数组形式给出
+{
+    int carry = 0;                               //进位
+    for (int i = number.size() - 1; i >= 0; --i) //从最低位置开始乘
+    {
+        int current = x * number[i] + carry;
+        number[i] = current % 10;
+        carry = current / 10; //向上一位进位的值
+    }
+    if (carry != 0) //如果最后仍有进位，则添加一位最高位，值为1
+        number.insert(number.begin(), 1);
+    return number;
+}
+vector<int> add(vector<int> number, int x) //超长数的加法，被加数以数组形式给出
+{
+    int carry = x;                               //进位
+    for (int i = number.size() - 1; i >= 0; --i) //从最低位置开始加
+    {
+        int current = number[i] + carry;
+        number[i] = current % 10;
+        carry = current / 10; //向上一位进位的值
+    }
+    if (carry != 0) //如果最后仍有进位，则添加一位最高位，值为1
+        number.insert(number.begin(), 1);
+    return number;
+}
+
+//十进制转化为二进制，再将逆序的二进制转化为十进制
+int main()
+{
+    string s;
+    while (getline(cin, s))
+    {
+        int size = s.size();
+        vector<int> number(size), binary, ans;
+        for (int i = 0; i < size; ++i) //将字符串转化为int数组
+            number[i] = s[i] - '0';
+        for (int i = 0; i < size;) //以下为进制转换
+        {
+            int remain = 0, temp = 0;
+            for (int j = i; j < size; ++j)
+            {
+                temp = (remain * 10 + number[j]) % 2;
+                number[j] = (remain * 10 + number[j]) / 2;
+                remain = temp;
+            }
+            binary.push_back(remain);
+            while (number[i] == 0)
+                ++i;
+        }
+        for (int i = 0; i < binary.size(); ++i)
+        {
+            ans = multiple(ans, 2);
+            ans = add(ans, binary[i]);
+        }
+        for (const int &a : ans)
+            cout << a;
+        cout << endl;
+    }
+    return 0;
+}
