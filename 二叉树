@@ -251,3 +251,5 @@ int height(TreeNode *root)
     else
         return max(height(root->left), height(root->right)) + 1;
 }
+
+//二叉搜索树插入（指针的引用）
