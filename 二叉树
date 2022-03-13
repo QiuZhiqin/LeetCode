@@ -253,3 +253,17 @@ int height(TreeNode *root)
 }
 
 //二叉搜索树插入（指针的引用）
+void SearchandInsert(TreeNode *&root, int x)
+{
+    if (!root)
+    {
+        root = new TreeNode(x);
+        return;
+    }
+    if (x == root->val)
+        return;
+    else if (x < root->val)
+        SearchandInsert(root->lchild, x);
+    else
+        SearchandInsert(root->rchild, x);
+}
