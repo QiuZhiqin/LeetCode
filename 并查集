@@ -1,0 +1,28 @@
+int Find(vector<int> &father, int x)
+{
+    if (father[x] < 0)
+        return x;
+    else
+    {
+        father[x] = Find(father, father[x]);
+        return father[x];
+    }
+}
+void Union(vector<int> &father, int x, int y)//根的值为该集合高度，数组首位保存根个数
+{
+    x = Find(father, x);
+    y = Find(father, y);
+    if (x != y)
+    {
+        if (father[x] < father[y])
+            father[y] = x;
+        else if (father[x] > father[y])
+            father[x] = y;
+        else
+        {
+            father[y] = x;
+            --father[x];
+        }
+        --father[0];
+    }
+}
