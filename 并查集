@@ -26,3 +26,22 @@ void Union(vector<int> &father, int x, int y)//根的值为该集合高度，数
         --father[0];
     }
 }
+
+//最小生成树
+//Kruskal，利用并查集，返回值为最小耗费
+float Kruskal(int n, int edgenumber)
+{
+    Initial(n);
+    sort(edge, edge + edgenumber);
+    float sum = 0;
+    for (int i = 0; i < edgenumber; i++)
+    {
+        Edge cur = edge[i];
+        if (Find(cur.from) != Find(cur.to))
+        {
+            Union(cur.from, cur.to);
+            sum += cur.cost;
+        }
+    }
+    return sum;
+}
